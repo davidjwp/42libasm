@@ -8,25 +8,15 @@ ft_strcmp:
 
 .loop:
 	mov bl, byte [rdi + rax]
-	cmp bl, 0x0
-	je .ret
-
 	sub bl, byte [rsi + rax]
-	cmp bl, byte 0x0
 	jne .ret
+
+	cmp byte [rsi + rax], 0
+	je .ret
 
 	inc rax
 	jmp .loop
 
 .ret:
-	cmp bl, byte [rsi + rax]
-	js .neg
-	
-	mov rax, rbx
-	ret
-
-.neg:
-	
-	; sub ebx, dword [rsi + rax]
-	mov eax, ebx
+	movsx rax, bl
 	ret

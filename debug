@@ -1,3 +1,0 @@
-break ft_strcmp
-break ft_strcmp.loop
-break ft_strcmp.ret

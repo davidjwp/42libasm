@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-extern int ft_strlen(char* );
-extern char ft_strcpy(char*, const char*);
-extern int ft_strcmp(char*, char*);
 
+extern int ft_strlen(const char* );
+extern char ft_strcpy(char*, const char*);
+extern int ft_strcmp(const char*, const char*);
+extern size_t ft_write(int, const void*, size_t);
 
 #define HELP "./test \033[34mtype\033[0m arg1\n\033[34mlen - cpy - cmp - \033[0m\n"
 
@@ -70,6 +71,12 @@ void test_strcmp(char *s1, char *s2)
 	printf("ft_strcmp %i\n",ft_strcmp(s1, s2));
 }
 
+void test_write(char *str)
+{
+	printf("\nwrite %li\n", write(1, str, strlen(str)));
+	printf("\nft_write %li\n", ft_write(1, str, strlen(str)));
+}
+
 unsigned int find(char *avt)
 {
 	unsigned int i = 0;
@@ -99,6 +106,8 @@ int main(int ac, char **av)
 			test_strcmp(av[2], av[3]);
 			break ;
 		case WRT:
+			test_write(av[2]);
+			break ;
 		case READ:
 		case DUP:
 		case NEG:

@@ -3,12 +3,13 @@ NFLAGS = -f elf64
 CC = gcc
 CFLAGS = -g3 -c
 
-SFILS = ft_strlen.s ft_strcpy.s ft_strcmp.s
+SFILS = ft_strlen.s ft_strcpy.s ft_strcmp.s ft_write.s
+NAME  = test
 TFILS = test.c 
 SOBJS = $(SFILS:.s=.o)
 COBJS = $(TFILS:.c=.o)
 
-test: $(SOBJS) $(COBJS)
+$(NAME): $(SOBJS) $(COBJS)
 	$(CC) -g $^ -o $@
 
 %.o: %.s
@@ -18,6 +19,9 @@ test: $(SOBJS) $(COBJS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -f $(SOBJS) $(COBJS) test
+	rm -f $(SOBJS) $(COBJS)
 
-re: clean test
+fclean: clean
+	rm $(NAME)
+
+re: clean $(NAME)

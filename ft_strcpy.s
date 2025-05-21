@@ -6,6 +6,7 @@ section .text
 
 ft_strcpy:
 	xor rcx, rcx
+
 .loop:
 	cmp byte [rsi + rcx], 0
 	je .ret
