@@ -4,17 +4,29 @@ section .text
 
 ft_strcmp:
 	xor rax, rax
+	xor bl, bl
 
 .loop:
-	cmp [rdi + rax], [rsi + rax]
-	inc rax
-	je loop
-	jn false
+	mov bl, byte [rdi + rax]
+	cmp bl, 0x0
+	je .ret
 
-.true:
-	xor rax, rax
+	sub bl, byte [rsi + rax]
+	cmp bl, byte 0x0
+	jne .ret
+
+	inc rax
+	jmp .loop
+
+.ret:
+	cmp bl, byte [rsi + rax]
+	js .neg
+	
+	mov rax, rbx
 	ret
 
-.false:
-	mov rax, 1
+.neg:
+	
+	; sub ebx, dword [rsi + rax]
+	mov eax, ebx
 	ret

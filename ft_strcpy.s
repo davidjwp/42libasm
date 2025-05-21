@@ -9,8 +9,10 @@ ft_strcpy:
 .loop:
 	cmp byte [rsi + rcx], 0
 	je .ret
+
 	mov al, byte [rsi + rcx]
 	mov [rdi + rcx], al
+
 	inc rcx
 	jmp	.loop
 

@@ -3,7 +3,7 @@ NFLAGS = -f elf64
 CC = gcc
 CFLAGS = -g3 -c
 
-SFILS = ft_strlen.s ft_strcpy.s
+SFILS = ft_strlen.s ft_strcpy.s ft_strcmp.s
 TFILS = test.c 
 SOBJS = $(SFILS:.s=.o)
 COBJS = $(TFILS:.c=.o)

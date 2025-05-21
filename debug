@@ -1,2 +1,3 @@
-break test_strcpy
-break ft_strcpy
+break ft_strcmp
+break ft_strcmp.loop
+break ft_strcmp.ret
