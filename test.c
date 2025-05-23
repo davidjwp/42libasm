@@ -2,11 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <fcntl.h>
 
 extern int ft_strlen(const char* );
 extern char ft_strcpy(char*, const char*);
 extern int ft_strcmp(const char*, const char*);
-extern size_t ft_write(int, const void*, size_t);
+extern size_t ft_write(unsigned int, const char*, size_t);
+extern size_t ft_read(unsigned int, char*, size_t);
+extern char* ft_strdup(const char*);
 
 #define HELP "./test \033[34mtype\033[0m arg1\n\033[34mlen - cpy - cmp - \033[0m\n"
 
@@ -17,7 +20,7 @@ char  err_type[5][20] = {
 	"empty string",
 	"wrong type",
 	"alloc error",
-	"wrong num arguments"
+	"wrong num arguments",
 };
 
 enum {
@@ -77,6 +80,17 @@ void test_write(char *str)
 	printf("\nft_write %li\n", ft_write(1, str, strlen(str)));
 }
 
+void test_read(char *file)
+{
+	int fd;
+	char buf[4096];
+
+	if ((fd = open(file, 0)) < 0)
+		printf("file %s not found\n", file);
+
+	read(fd, buf, ) ? printf(): printf("read: err no read from file\n");
+}
+
 unsigned int find(char *avt)
 {
 	unsigned int i = 0;
@@ -106,10 +120,18 @@ int main(int ac, char **av)
 			test_strcmp(av[2], av[3]);
 			break ;
 		case WRT:
+			if (ac < 4)
+				error(err_type[4]);
 			test_write(av[2]);
 			break ;
 		case READ:
+			if (ac < 4)
+				error(err_type[4]);
+			test_read(av[2]);
+			break ;
 		case DUP:
+			test_strdup(av[2]);
+			break ;
 		case NEG:
 			error(err_type[2]);
 	}
