@@ -1,21 +1,19 @@
 #include <string.h>
 #include <stdio.h>
-
-
-
-int scmp(const char* ar1, const char* ar2)
-{
-	while ((*ar1 && *ar2) && !(*ar1 - *ar2))
-	{
-		ar1++;
-		ar2++;
-	}
-	return (*ar1 - *ar2);
-}
+#include <unistd.h>
+#include <errno.h>
+#include <fcntl.h>
 
 int	main(int ac, char **av)
 {
-	printf("strcmp %i\n", strcmp(av[1], av[2]));
-	printf("scmp %i\n",scmp(av[1], av[2]));
+	int fd = open("./t.c", O_CREAT | O_RDWR | O_APPEND, 0644);
+	char buf[4096];
+	if (fd == -1) return (1);
+
+	read(fd, buf, 4096);
+	read(fd, buf, 4096);
+	printf("%s\n", buf);
+	close(fd);
 	return (0);
 }
+

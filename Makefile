@@ -1,27 +1,33 @@
 NASM = nasm
 NFLAGS = -f elf64
-CC = gcc
-CFLAGS = -g3 -c
+CC = gcc -g3
+CFLAGS = -Wall -Wextra -Werror
+AR = ar
+ARFLAGS = rcs
 
-SFILS = ft_strlen.s ft_strcpy.s ft_strcmp.s ft_write.s
-NAME  = test
-TFILS = test.c 
-SOBJS = $(SFILS:.s=.o)
-COBJS = $(TFILS:.c=.o)
+SRCS = ft_strlen.s ft_strcpy.s ft_strcmp.s ft_write.s ft_read.s ft_strdup.s
+OBJS = $(SRCS:.s=.o)
+NAME = libasm.a
+TEST = test
+TEST_SRC = test.c
 
-$(NAME): $(SOBJS) $(COBJS)
-	$(CC) -g $^ -o $@
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	$(AR) $(ARFLAGS) $@ $^
 
 %.o: %.s
 	$(NASM) $(NFLAGS) $< -o $@
 
-%.o: %.c
-	$(CC) $(CFLAGS) $< -o $@
+test: $(NAME)
+	$(CC) $(CFLAGS) $(TEST_SRC) -L. -lasm -o $(TEST)
 
 clean:
-	rm -f $(SOBJS) $(COBJS)
+	rm -f $(OBJS)
 
 fclean: clean
-	rm $(NAME)
+	rm -f $(NAME) $(TEST)
 
-re: clean $(NAME)
+re: fclean all
+
+.PHONY: all clean fclean re test
