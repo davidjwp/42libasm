@@ -1,35 +1,34 @@
+; The registers RAX, RCX, RDX, R8, R9, R10, R11 are considered volatile (caller-saved).
+
 section .text
 	global ft_strdup
-	; extern ft_strlen
-	extern __errno_location
-	extern ENOMEM
+	extern malloc, __errno_location, ft_strlen
 
 ft_strdup:
 	push rdi
 	call ft_strlen
-	inc rax
-	push rax
+	mov rdi, rax
+	inc rdi					;save arg1, get strlen
 
-	mov rdi, 0
-	mov rax, 12
-	syscall
+	call malloc wrt ..plt
+	test rax, rax
+	jz .err				;allocate mem
 
-	cmp rax, -1
-	je .err
-
-	pop rax
+	xor rbx, rbx
+	pop rdi
 
 .loop:
+	mov cl, byte [rdi + rbx]
+	mov byte [rax + rbx], cl
 
-	mov bl, byte [rdi + rax]
-	mov byte ptr - [rax], bl
-
-	cmp bl, 0
-	je .loop
-	ret	
+	inc rbx
+	test cl, cl
+	jnz .loop
+	
+	ret
 
 .err:
 	call __errno_location wrt ..plt
-	mov [rax], ENOMEM
-	mov rax, 0
+	mov dword [rax], 12
+	xor rax, rax
 	ret

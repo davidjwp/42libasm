@@ -188,6 +188,7 @@ int main(int ac, char **av)
 		case DEL:
 			remove("./read");
 			remove("./ft_read");
+			remove("./write_test_file");
 			break ;
 		case NUL:
 			error(err_type[2]);
