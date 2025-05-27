@@ -4,9 +4,6 @@ section .text
 
 ft_read:
 	xor rax, rax
-	push rdi
-	push rsi
-	push rdx 
 	syscall
 
 	cmp rax, -1
