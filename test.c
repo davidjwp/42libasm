@@ -102,19 +102,21 @@ void test_read(void)
 	int fd_read = open("read", O_CREAT | O_RDWR | O_APPEND, 00644);
 	int fd_ft_read = open("ft_read", O_CREAT | O_RDWR | O_APPEND, 00644);
 
+	//read from file
 	printf("read from file %li buf -> ./read\n", read(fd, buf, 4096));
 	write(fd_read, buf, strlen(buf));
 	lseek(fd, 0, SEEK_SET);
-	// bzero(buf, strlen(buf));
-	char buf2[4096];
-	printf("\033[34mft_read from file %li buf -> ./ft_read\n", ft_read(fd, buf2, 4096));
-	write(fd_ft_read, buf2, strlen(buf2));
+	bzero(buf, strlen(buf));
+	printf("\033[34mft_read from file %li buf -> ./ft_read\n", ft_read(fd, buf, 4096));
+	write(fd_ft_read, buf, strlen(buf));
 
+	//read from STDIN
 	bzero(buf, ft_strlen(buf));
 	printf("\033[34mread from stdin %li buf = \033[0m%s\n", read(STDIN_FILENO, buf, 4096), buf);
 	bzero(buf, ft_strlen(buf));
 	printf("\033[34mft_read from stdin %li buf = \033[0m%s\n", ft_read(STDIN_FILENO, buf, 4096), buf);
 	
+	//error
 	bzero(buf, ft_strlen(buf));
 	printf("read err %li buf = %s\n", read(-1, buf, 4096), buf);
 	bzero(buf, ft_strlen(buf));
@@ -127,7 +129,15 @@ void test_read(void)
 
 void test_strdup(char *str)
 {
-	(void)str;
+	
+	void* dup = strdup(str);
+	void* dup2 = ft_strdup(str);
+
+	printf("strdup %s %li\n", (char*)dup, strlen(dup));
+	printf("strdup %s %li\n", (char*)dup2, strlen(dup2));
+
+	free(dup);
+	free(dup2);
 }
 
 unsigned int find(char *avt)
@@ -176,6 +186,8 @@ int main(int ac, char **av)
 			test_strdup(av[2]);
 			break ;
 		case DEL:
+			remove("./read");
+			remove("./ft_read");
 			break ;
 		case NUL:
 			error(err_type[2]);
